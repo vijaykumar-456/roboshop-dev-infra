@@ -1,0 +1,336 @@
+#MongoDB allowing connections from catalogue - 27017
+resource "aws_security_group_rule" "mongodb_catalogue" {
+  type              = "ingress"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.catalogue_sg_id  #to which security group needed
+  security_group_id = local.mongodb_sg_id  #from which security group needed
+}
+
+#MongoDB allowing connections from user - 27017
+resource "aws_security_group_rule" "mongodb_user" {
+  type              = "ingress"
+  from_port         = 27017
+  to_port           = 27017
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.user_sg_id  #to which security group needed
+  security_group_id = local.mongodb_sg_id  #from which security group needed
+}
+
+#MongoDB allowing connections from bastion - 22
+resource "aws_security_group_rule" "mongodb_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.mongodb_sg_id  #from which security group needed
+}
+
+#redis allowing connections from user - 6379
+resource "aws_security_group_rule" "redis_user" {
+  type              = "ingress"
+  from_port         = 6379
+  to_port           = 6379
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.user_sg_id  #to which security group needed
+  security_group_id = local.redis_sg_id  #from which security group needed
+}
+
+#redis allowing connections from cart - 6379
+resource "aws_security_group_rule" "redis_cart" {
+  type              = "ingress"
+  from_port         = 6379
+  to_port           = 6379
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.cart_sg_id  #to which security group needed
+  security_group_id = local.redis_sg_id  #from which security group needed
+}
+
+#redis allowing connections from bastion - 22
+resource "aws_security_group_rule" "redis_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.redis_sg_id  #from which security group needed
+}
+
+#mysql allowing connections from shipping - 3306
+resource "aws_security_group_rule" "mysql_shipping" {
+  type              = "ingress"
+  from_port         = 3306
+  to_port           = 3306
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.shipping_sg_id  #to which security group needed
+  security_group_id = local.mysql_sg_id  #from which security group needed
+}
+
+#mysql allowing connections from bastion - 22
+resource "aws_security_group_rule" "mysql_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.mysql_sg_id  #from which security group needed
+}
+
+#rabbitmq allowing connections from payment - 5672
+resource "aws_security_group_rule" "rabbitmq_payment" {
+  type              = "ingress"
+  from_port         = 5672
+  to_port           = 5672
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.payment_sg_id  #to which security group needed
+  security_group_id = local.rabbitmq_sg_id  #from which security group needed
+}
+
+#rabbitmq allowing connections from bastion - 22
+resource "aws_security_group_rule" "rabbitmq_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.rabbitmq_sg_id  #from which security group needed
+}
+
+#catalogue - 8080
+resource "aws_security_group_rule" "catalogue_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.backend_alb_sg_id  #to which security group needed
+  security_group_id = local.catalogue_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "catalogue_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.catalogue_sg_id  #from which security group needed
+}
+
+#user - 8080
+resource "aws_security_group_rule" "user_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.backend_alb_sg_id  #to which security group needed
+  security_group_id = local.user_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "user_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.user_sg_id  #from which security group needed
+}
+
+#cart
+resource "aws_security_group_rule" "cart_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.backend_alb_sg_id  #to which security group needed
+  security_group_id = local.cart_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "cart_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.cart_sg_id  #from which security group needed
+}
+
+#shipping
+resource "aws_security_group_rule" "shipping_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.backend_alb_sg_id  #to which security group needed
+  security_group_id = local.shipping_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "shipping_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.shipping_sg_id  #from which security group needed
+}
+
+#payment
+resource "aws_security_group_rule" "payment_backend_alb" {
+  type              = "ingress"
+  from_port         = 8080
+  to_port           = 8080
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.backend_alb_sg_id  #to which security group needed
+  security_group_id = local.payment_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "payment_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#  cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.payment_sg_id  #from which security group needed
+}
+
+#backend alb accepting connectons from port 80
+resource "aws_security_group_rule" "backend_alb_frontend" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.frontend_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_bastion" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_catalogue" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.catalogue_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_user" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.user_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_cart" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.cart_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_shipping" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.shipping_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "backend_alb_payment" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.payment_sg_id  #to which security group needed
+  security_group_id = local.backend_alb_sg_id  #from which security group needed
+}
+
+#frontend should accept connections from frontend_alb
+resource "aws_security_group_rule" "fronted_frontend_alb" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.frontend_alb_sg_id  #to which security group needed
+  security_group_id = local.frontend_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "fronted_bastion" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+#   cidr_blocks       = [aws_vpc.example.cidr_block]
+  source_security_group_id = local.bastion_sg_id  #to which security group needed
+  security_group_id = local.frontend_sg_id  #from which security group needed
+}
+
+#frontend alb
+resource "aws_security_group_rule" "frontend_alb_https" {
+  type              = "ingress"
+  from_port         = 443
+  to_port           = 443
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = local.frontend_sg_id  #from which security group needed
+}
+
+resource "aws_security_group_rule" "frontend_alb_http" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
+  protocol          = "tcp"
+  cidr_blocks       = ["0.0.0.0/0"]
+  security_group_id = local.frontend_alb_sg_id  #from which security group needed
+}
+
+#Bastion
+resource "aws_security_group_rule" "bastion_my_public_ip" {
+  type              = "ingress"
+  from_port         = 22
+  to_port           = 22
+  protocol          = "tcp"
+  cidr_blocks       = ["${chomp(data.http.my_public_ip.response_body)}/32"]
+  security_group_id = local.bastion_sg_id  #from which security group needed
+}
+
