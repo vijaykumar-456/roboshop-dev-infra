@@ -36,7 +36,7 @@ resource "aws_iam_policy" "mysql" {
 }
 
 #step 3: Attach the policy to the user role
-resource "aws_iam_role_policy_attachment" "mysql" {
+resource "aws_iam_role_policy_attachment" "mysql_policy" {
   role       = aws_iam_role.mysql.name
   policy_arn = aws_iam_policy.mysql.arn
 }
