@@ -13,3 +13,19 @@ resource "aws_route53_record" "redis" {
   ttl     = 300
   records = [aws_instance.redis.private_ip]
 }
+
+resource "aws_route53_record" "mysql" {
+  zone_id = var.zone_id
+  name    = "mysql-${var.environment}.${var.domain_name}" #mysql-dev.learndevopskills.shop
+  type    = "A"
+  ttl     = 300
+  records = [aws_instance.mysql.private_ip]
+}
+
+resource "aws_route53_record" "rabbitmq" {
+  zone_id = var.zone_id
+  name    = "rabbitmq-${var.environment}.${var.domain_name}" #rabbitmq-dev.learndevopskills.shop
+  type    = "A"
+  ttl     = 300
+  records = [aws_instance.rabbitmq.private_ip]
+}
