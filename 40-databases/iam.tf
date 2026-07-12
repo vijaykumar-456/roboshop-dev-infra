@@ -26,7 +26,7 @@ resource "aws_iam_role" "mysql" {
 }
 
 #step 2: Create a new custom policy 
-resource "aws_iam_policy" "mysql" {
+resource "aws_iam_policy" "mysql_policy" {
   name        = "${local.common_name}-mysqll"
   description = "Mpolicy to read ssm parameter to attach to mysql instance"
 
@@ -36,13 +36,13 @@ resource "aws_iam_policy" "mysql" {
 }
 
 #step 3: Attach the policy to the user role
-resource "aws_iam_role_policy_attachment" "mysql_policy" {
+resource "aws_iam_role_policy_attachment" "mysql_policy_attach" {
   role       = aws_iam_role.mysql.name
   policy_arn = aws_iam_policy.mysql_policy.arn
 }
 
 #step 4: Create instance profile
-resource "aws_iam_instance_profile" "mysql" {
+resource "aws_iam_instance_profile" "mysql_instance_profile" {
   name = "${local.common_name}-mysql"
   role = aws_iam_role.mysql.name
 }
