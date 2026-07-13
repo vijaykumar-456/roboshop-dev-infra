@@ -87,7 +87,7 @@ resource "terraform_data" "redis" {
 }
 
 
-mysql
+# mysql
 resource "aws_instance" "mysql" {
   ami           = data.aws_ami.learndevopskills.id
   vpc_security_group_ids = [local.mysql_sg_id]
