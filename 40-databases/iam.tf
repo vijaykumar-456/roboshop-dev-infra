@@ -43,6 +43,6 @@ resource "aws_iam_role_policy_attachment" "mysqlattach" {
 
 #step 4: Create instance profile
 resource "aws_iam_instance_profile" "mysql" {
-  name = "${local.common_name}-mysql"
+  name = "${local.common_name}-mysqlprofile"
   role = aws_iam_role.mysql.name
 }
