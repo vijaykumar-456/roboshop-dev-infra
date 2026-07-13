@@ -6,3 +6,13 @@ data "aws_ssm_parameter" "private_subnet_ids" {
     name = "/${var.project}/${var.environment}/private_subnet_ids"
 }
 
+data "aws_ami" "learndevopskills" {
+    most_recent = true
+    owners = ["973714476881"]
+
+    filter {
+        name = "name"
+        values = ["Redhat-9-DevOps-Practice"]
+    }
+
+}
