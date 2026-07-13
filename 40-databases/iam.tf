@@ -1,6 +1,6 @@
 #step 1: create a role in IAM as same in AWS interface
 resource "aws_iam_role" "mysql" {
-  name = "${local.common_name}-mysql"
+  name = "${local.common_name}-mysqlnew"
 
   # This is the trust policy, meaning we can attach to EC2 instance
   assume_role_policy = jsonencode({
