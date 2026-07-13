@@ -3,7 +3,7 @@ resource "aws_lb" "backend_alb" {
   internal           = true
   load_balancer_type = "application"
   security_groups    = [local.backend_alb_sg_id]
-  subnets            = local.local.private_subnet_ids
+  subnets            = local.private_subnet_ids
 
   enable_deletion_protection = true
 
@@ -12,7 +12,7 @@ resource "aws_lb" "backend_alb" {
     {
       Name = "${local.common_name}-backend-alb"
     },
-    local.commonlocal.common_tags
+    local.common_tags
   )
 }
 
