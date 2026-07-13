@@ -26,8 +26,8 @@ resource "aws_iam_role" "mysql" {
 }
 
 #step 2: Create a new custom policy 
-resource "aws_iam_policy" "mysql_policy" {
-  name        = "${local.common_name}-mysqll"
+resource "aws_iam_policy" "mysql" {
+  name        = "${local.common_name}-mysql"
   description = "Mpolicy to read ssm parameter to attach to mysql instance"
 
   # Terraform's "jsonencode" function converts a
@@ -36,13 +36,13 @@ resource "aws_iam_policy" "mysql_policy" {
 }
 
 #step 3: Attach the policy to the user role
-resource "aws_iam_role_policy_attachment" "mysql_policy_attach" {
+resource "aws_iam_role_policy_attachment" "mysql" {
   role       = aws_iam_role.mysql.name
-  policy_arn = aws_iam_policy.mysql_policy.arn
+  policy_arn = aws_iam_policy.mysql.arn
 }
 
 #step 4: Create instance profile
-resource "aws_iam_instance_profile" "mysql_instance_profile" {
+resource "aws_iam_instance_profile" "mysql" {
   name = "${local.common_name}-mysql"
   role = aws_iam_role.mysql.name
 }
