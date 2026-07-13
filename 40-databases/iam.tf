@@ -1,6 +1,6 @@
 #step 1: create a role in IAM as same in AWS interface
 resource "aws_iam_role" "mysql" {
-  name = "${local.common_name}-mysqlnew"
+  name = "${local.common_name}-mysqlnewrole"
 
   # This is the trust policy, meaning we can attach to EC2 instance
   assume_role_policy = jsonencode({
@@ -27,7 +27,7 @@ resource "aws_iam_role" "mysql" {
 
 #step 2: Create a new custom policy 
 resource "aws_iam_policy" "mysql" {
-  name        = "${local.common_name}-mysql"
+  name        = "${local.common_name}-mysqlpolicy"
   description = "Mpolicy to read ssm parameter to attach to mysql instance"
 
   # Terraform's "jsonencode" function converts a
@@ -36,7 +36,7 @@ resource "aws_iam_policy" "mysql" {
 }
 
 #step 3: Attach the policy to the user role
-resource "aws_iam_role_policy_attachment" "mysql" {
+resource "aws_iam_role_policy_attachment" "mysqlattach" {
   role       = aws_iam_role.mysql.name
   policy_arn = aws_iam_policy.mysql.arn
 }
