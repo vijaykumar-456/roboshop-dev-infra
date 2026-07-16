@@ -163,6 +163,15 @@ resource "aws_autoscaling_group" "catalogue" {
   timeouts {
     delete = "15m"
   }
+
+  instance_refresh {
+    strategy = "Rolling"
+    preferences {
+      min_healthy_percentage = 50
+    }
+    triggers = ["launch_template"] #if any updates comes in launch template refresh the instances
+  }
+
 }
 
 resource "aws_autoscaling_policy" "catalogue" {
@@ -178,4 +187,35 @@ resource "aws_autoscaling_policy" "catalogue" {
 
     target_value = 75.0
   }
+}
+
+resource "aws_lb_listener_rule" "host_based_weighted_routing" {
+  listener_arn = local.backend_alb_listener_arn
+  priority     = 10
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.catalogue.arn
+  }
+
+  condition {
+    host_header {
+      values = ["catalogue.backend-alb-${var.environment}.${var.domain_name}"]
+    }
+  }
+}
+
+resource "terraform_data" "catalogue" {
+  triggers_replace = [
+    aws_instance.catalogue.id
+  ]
+
+  depends_on = [ aws_autoscaling_policy.catalogue ]
+
+  #executes where terraform is running
+  provisioner "local-exec" {
+    command = "aws ec2 terminate-instances --instance-ids ${aws_instance.catalogue.id}"
+    
+  }
+  
 }
