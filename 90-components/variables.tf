@@ -7,9 +7,8 @@ variable "environment" {
 }
 
 variable "components" {
-  type = string
+  # type = m
   default = {
-    [
       catalogue = {
         rule_priority = 10
         app_version = "v3"
@@ -39,7 +38,6 @@ variable "components" {
         rule_priority = 10
         app_version = "v3"
       }
-    ]
   }
 }
 
