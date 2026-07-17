@@ -8,5 +8,5 @@ locals {
   }
   common_name = "${var.project}-${var.environment}"
   public_subnet_ids = split(",", data.aws_ssm_parameter.public_subnet_ids.value)
-  certificate_arn = aws_ssm_parameter.certificate_arn.value
+  certificate_arn = data.aws_ssm_parameter.certificate_arn.value
 }

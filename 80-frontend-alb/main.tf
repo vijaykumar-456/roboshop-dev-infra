@@ -1,6 +1,6 @@
 resource "aws_lb" "frontend_alb" {
   name               = "${local.common_name}-frontend-alb"
-  internal           = flase
+  internal           = false
   load_balancer_type = "application"
   security_groups    = [local.frontend_alb_sg_id]
   subnets            = local.public_subnet_ids
