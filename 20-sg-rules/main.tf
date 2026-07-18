@@ -285,7 +285,7 @@ resource "aws_security_group_rule" "backend_alb_payment" {
 }
 
 #frontend should accept connections from frontend_alb
-resource "aws_security_group_rule" "fronted_frontend_alb" {
+resource "aws_security_group_rule" "frontend_frontend_alb" {
   type              = "ingress"
   from_port         = 80
   to_port           = 80
@@ -295,7 +295,7 @@ resource "aws_security_group_rule" "fronted_frontend_alb" {
   security_group_id = local.frontend_sg_id  #from which security group needed
 }
 
-resource "aws_security_group_rule" "fronted_bastion" {
+resource "aws_security_group_rule" "frontend_bastion" {
   type              = "ingress"
   from_port         = 22
   to_port           = 22
@@ -321,7 +321,7 @@ resource "aws_security_group_rule" "frontend_alb_http" {
   to_port           = 80
   protocol          = "tcp"
   cidr_blocks       = ["0.0.0.0/0"]
-  security_group_id = local.frontend_sg_id  #from which security group needed
+  security_group_id = local.frontend_alb_sg_id  #from which security group needed
 }
 
 #Bastion
